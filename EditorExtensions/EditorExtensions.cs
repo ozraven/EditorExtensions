@@ -57,6 +57,7 @@ namespace EditorExtensions
 			InitConfig ();
 			InitializeGUI ();
 			GameEvents.onEditorPartEvent.Add (EditorPartEvent);
+			GameEvents.onEditorSnapModeChange.Add (SnapModeChange);
 		}
 
 		//Unity OnDestroy
@@ -69,6 +70,12 @@ namespace EditorExtensions
 			//	_partInfoWindow.enabled = false;
 
 			GameEvents.onEditorPartEvent.Remove (EditorPartEvent);
+			GameEvents.onEditorSnapModeChange.Remove (SnapModeChange);
+		}
+
+		void SnapModeChange(bool snapMode)
+		{
+			Log.Debug ("Snap mode: " + snapMode.ToString ());
 		}
 
 		void EditorPartEvent(ConstructionEventType eventType, Part part)
@@ -515,17 +522,22 @@ namespace EditorExtensions
 
 				Log.Debug ("Setting srfAttachAngleSnap to " + newAngle.ToString ());
 				editor.srfAttachAngleSnap = newAngle;
+				GameSettings.VAB_USE_ANGLE_SNAP = true;
 			} else {
 				Log.Debug ("Resetting srfAttachAngleSnap to 0");
 				editor.srfAttachAngleSnap = 0;
+				//at angle snap 0, turn off angle snap and show stock circle sprite
+				GameSettings.VAB_USE_ANGLE_SNAP = false;
 			}
 
 			//at angle snap 0, turn off angle snap and show stock circle sprite
-			if (editor.srfAttachAngleSnap == 0) {
-				GameSettings.VAB_USE_ANGLE_SNAP = false;
-			} else {
-				GameSettings.VAB_USE_ANGLE_SNAP = true;
-			}
+//			if (editor.srfAttachAngleSnap == 0) {
+//				GameSettings.VAB_USE_ANGLE_SNAP = false;
+//			} else {
+//				GameSettings.VAB_USE_ANGLE_SNAP = true;
+//			}
+
+			//GameSettings.VAB_USE_ANGLE_SNAP = (editor.srfAttachAngleSnap != 0)
 
 			Log.Debug ("Exiting srfAttachAngleSnap = " + editor.srfAttachAngleSnap.ToString ());
 			return;

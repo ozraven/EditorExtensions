@@ -1,5 +1,8 @@
-## Editor Extensions v2.8 For KSP v1.0.2
+## Editor Extensions v2.9 For KSP v1.0.2
 21 May 2015
+
+### Changes in v2.9
+*
 
 ### Changes in v2.8
 * New strut and fuel line alignment logic
